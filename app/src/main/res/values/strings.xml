@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BaseDataBindingLibrary</string>
+    <string name="show_list">列表展示</string>
+</resources>

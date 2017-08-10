@@ -1,0 +1,19 @@
+<resources>
+
+    <style name="AppTheme" parent="BaseAppTheme" />
+    <!-- Base application theme. -->
+    <style name="BaseAppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        //沉浸状态栏
+        <!--  <item name="android:windowIsTranslucent">true</item>
+          <item name="android:windowTranslucentStatus">true</item>-->
+
+        //ActionBarDrawerToggle设置颜色
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+</resources>
