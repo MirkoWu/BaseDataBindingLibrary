@@ -1,7 +1,7 @@
 package com.softgarden.basedatabindinglibrary.network;
 
 
-import com.softgarden.baselibrary.base.BaseDisplay;
+import com.softgarden.baselibrary.base.IBaseDisplay;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -15,9 +15,9 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Lightwave on 2016/6/28.
  */
 public class BaseNetworkTransformerHelper<T> implements ObservableTransformer<BaseBean<T>, T> {
-    private BaseDisplay view;
+    private IBaseDisplay view;
 
-    public BaseNetworkTransformerHelper(BaseDisplay view) {
+    public BaseNetworkTransformerHelper(IBaseDisplay view) {
         this.view = view;
     }
 

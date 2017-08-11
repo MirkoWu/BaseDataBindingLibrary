@@ -4,10 +4,11 @@ import com.softgarden.basedatabindinglibrary.R;
 import com.softgarden.basedatabindinglibrary.bean.TestBean;
 import com.softgarden.basedatabindinglibrary.databinding.ActivityMainBinding;
 import com.softgarden.basedatabindinglibrary.ui.goodsList.GoodsListActivity;
+import com.softgarden.baselibrary.base.BasePresenter;
 import com.softgarden.baselibrary.base.databinding.DataBindingActivity;
 import com.softgarden.baselibrary.widget.CommonToolbar;
 
-public class MainActivity extends DataBindingActivity<ActivityMainBinding> {
+public class MainActivity extends DataBindingActivity<BasePresenter,ActivityMainBinding> {
 
     @Override
     protected int getLayoutId() {
@@ -26,5 +27,8 @@ public class MainActivity extends DataBindingActivity<ActivityMainBinding> {
         binding.tvHello.setText("");
 
         binding.tvList.setOnClickListener(v -> openActivity(GoodsListActivity.class));
+        binding.tvBase.setOnClickListener(v -> openActivity(TestBaseActivity.class));
+        binding.tvDatabinding.setOnClickListener(v -> openActivity(TestDataBindingActivity.class));
+        binding.tvSwipeback.setOnClickListener(v -> openActivity(SwipeBackActivity.class));
     }
 }

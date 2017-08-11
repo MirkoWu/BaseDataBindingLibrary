@@ -5,8 +5,8 @@ import android.databinding.ViewDataBinding;
 import com.mirkowu.library.BaseRVAdapter;
 import com.mirkowu.library.listener.OnLoadMoreListener;
 import com.softgarden.baselibrary.R;
-import com.softgarden.baselibrary.base.BaseActivity;
-import com.softgarden.baselibrary.base.BasePresenter;
+import com.softgarden.baselibrary.base.databinding.DataBindingActivity;
+import com.softgarden.baselibrary.base.IBasePresenter;
 import com.softgarden.baselibrary.widget.RefreshDelegateLayout;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by DELL on 2017/7/28.
  */
 
-public abstract class RefreshActivity<T extends BasePresenter, B extends ViewDataBinding> extends BaseActivity<T, B> implements OnLoadMoreListener {
+public abstract class RefreshActivity<T extends IBasePresenter, B extends ViewDataBinding> extends DataBindingActivity<T, B> implements OnLoadMoreListener {
 
     RefreshDelegateLayout mRefreshLayout;
 

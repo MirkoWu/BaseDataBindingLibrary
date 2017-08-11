@@ -1,7 +1,5 @@
 package com.softgarden.baselibrary.base;
 
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,16 +14,14 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatDialogFragment;
 /**
  * Created by Lightwave on 2015/12/3.
  */
-public abstract class BaseDialogFragment<B extends ViewDataBinding> extends RxAppCompatDialogFragment {
+public abstract class BaseDialogFragment extends RxAppCompatDialogFragment {
     public final String TAG = getClass().getSimpleName();
-    protected B binding;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(getLayoutId(), container, false);
-        binding = DataBindingUtil.bind(view);
         return view;
     }
 

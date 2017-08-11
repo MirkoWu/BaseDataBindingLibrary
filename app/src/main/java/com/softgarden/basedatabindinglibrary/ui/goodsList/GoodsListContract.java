@@ -1,8 +1,8 @@
 package com.softgarden.basedatabindinglibrary.ui.goodsList;
 
 import com.softgarden.basedatabindinglibrary.bean.GoodsBean;
-import com.softgarden.baselibrary.base.BaseDisplay;
-import com.softgarden.baselibrary.base.BasePresenter;
+import com.softgarden.baselibrary.base.IBaseDisplay;
+import com.softgarden.baselibrary.base.IBasePresenter;
 
 import java.util.List;
 
@@ -11,13 +11,13 @@ import java.util.List;
  */
 
 public interface GoodsListContract {
-    interface Display extends BaseDisplay {
+    interface Display extends IBaseDisplay {
 
 
         void goodsList(List<GoodsBean> list);
     }
 
-    interface Presenter extends BasePresenter<Display> {
+    interface Presenter extends IBasePresenter<Display> {
 
         void goodsList(int page,int pageSize);
 

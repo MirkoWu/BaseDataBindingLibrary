@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.softgarden.basedatabindinglibrary.ui.TestDataBindingActivity">
+
+        <TextView
+            android:layout_width="368dp"
+            android:layout_height="551dp"
+            android:text="这里做一个完整的 Databinding 和MVP 的演示步骤
+\n1.创建完Activity。
+\n2.在布局XML 跟布局写上 《layout》《/layout》 标签 即用此标签嵌套所有的布局。
+\n3.给Activity 创建 Contract 和 Presenter 。（2 ，3步骤随意）
+\n4.给Activity 添加泛型，即Activity《Presenter,ActivityBinding》 ，最后要注意 implments Contract.Display。
+\n其中的ActivityBinding命名规范是一定的 ，布局文件驼峰式，后面加上Binding,例：activity_main.xml  --》ActivityMainBinding.如果binding没有生成 需要编译一下
+\n5.实现各方法.
+\n6,有需要 加toolbar的，可以在setToolbar()方法 返回  new CommonToolbar.Builder().setTitle().showLeft().showRight()......build(this);
+"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
+    </android.support.constraint.ConstraintLayout>
+</layout>
+

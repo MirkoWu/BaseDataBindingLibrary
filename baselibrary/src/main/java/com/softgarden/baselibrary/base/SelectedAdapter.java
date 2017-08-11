@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class SelectedAdapter<T> extends DataBindingAdapter<T> {
     private boolean openSelecter = true;//总开关 开启选择功能
-    private int selectIndex = -1;//单个选中状态
+    private int selectIndex = 0;//单个选中状态
     private boolean multiSelected;//是否多选 默认为单选
     private ArrayList<Integer> selectList = new ArrayList<>();//多选下标集合
 
@@ -65,8 +65,13 @@ public class SelectedAdapter<T> extends DataBindingAdapter<T> {
         return selectIndex;
     }
 
+    public void clearSelectIndex() {
+        selectIndex = 0;//这里的值 自己定
+        notifyDataSetChanged();
+    }
+
     @Override
-    protected void onItemClick( View v, int position) {
+    protected void onItemClick(View v, int position) {
         super.onItemClick(v, position);
         //设置选择器
         if (openSelecter) {

@@ -8,25 +8,27 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.softgarden.baselibrary.base.databinding.DataBindingFragment;
+
 import java.util.List;
 
 /**
  * Created by Administrator on 2015/12/5.
  */
 public class FragmentBasePagerAdapter extends FragmentStatePagerAdapter {
-    private BaseFragment[] fragments;
+    private DataBindingFragment[] fragments;
     private String[] titles;
 
-    public FragmentBasePagerAdapter(FragmentManager fm, BaseFragment... fragments) {
+    public FragmentBasePagerAdapter(FragmentManager fm, DataBindingFragment... fragments) {
         super(fm);
         this.fragments = fragments;
     }
 
-    public FragmentBasePagerAdapter(FragmentManager fm, Class<? extends BaseFragment> cls, String[] titles) {
+    public FragmentBasePagerAdapter(FragmentManager fm, Class<? extends DataBindingFragment> cls, String[] titles) {
         super(fm);
         if (titles == null || titles.length == 0) return;
         this.titles = titles;
-        this.fragments = new BaseFragment[titles.length];
+        this.fragments = new DataBindingFragment[titles.length];
         for (int i = 0; i < titles.length; i++) {
             try {
                 fragments[i] = cls.newInstance();
@@ -36,11 +38,11 @@ public class FragmentBasePagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    public FragmentBasePagerAdapter(FragmentManager fm, Class<? extends BaseFragment> cls, String[] titles, List<Bundle> bundles) {
+    public FragmentBasePagerAdapter(FragmentManager fm, Class<? extends DataBindingFragment> cls, String[] titles, List<Bundle> bundles) {
         super(fm);
         if (titles == null || titles.length == 0) return;
         this.titles = titles;
-        this.fragments = new BaseFragment[titles.length];
+        this.fragments = new DataBindingFragment[titles.length];
         for (int i = 0; i < titles.length; i++) {
             try {
                 fragments[i] = cls.newInstance();
@@ -53,7 +55,7 @@ public class FragmentBasePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        BaseFragment fragment = fragments[position];
+        DataBindingFragment fragment = fragments[position];
         fragment.setPosition(position);
         CharSequence pageTitle = getPageTitle(position);
         if (!TextUtils.isEmpty(pageTitle)) fragment.setTitle(pageTitle.toString());
