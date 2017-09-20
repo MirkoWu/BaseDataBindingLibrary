@@ -84,7 +84,7 @@ public class CommonToolbar extends Toolbar {
 
     public static class Builder {
         private CharSequence title, leftStr, rightStr;
-        private int titleResId, backgroundColorResId, leftImgResId=-1, leftStrResId, rightImgResId, rightStrResId;
+        private int titleResId, backgroundColorResId, leftImgResId = -1, leftStrResId, rightImgResId, rightStrResId;
         private OnClickListener leftOnClickListener;
         private OnClickListener rightOnClickListener;
 
@@ -265,16 +265,33 @@ public class CommonToolbar extends Toolbar {
      *
      * @param title
      */
+
+    @Override
+    public void setTitle(CharSequence title) {
+        tv_toolbar_title.setText(title);
+    }
+
+    @Override
+    public void setTitle(int title) {
+        tv_toolbar_title.setText(title);
+    }
+
+    @Override
+    public CharSequence getTitle() {
+        return tv_toolbar_title.getText().toString();
+    }
+
     public void setToolbarTitle(CharSequence title) {
+        tv_toolbar_title.setText(title);
+    }
+
+
+    public void setToolbarTitle(@StringRes int title) {
         tv_toolbar_title.setText(title);
     }
 
     public void setToolbarTitleColor(@ColorRes int color) {
         tv_toolbar_title.setTextColor(ContextCompat.getColor(getContext(), color));
-    }
-
-    public void setToolbarTitle(@StringRes int title) {
-        tv_toolbar_title.setText(title);
     }
 
     public void setToolbarBackgroundColor(@ColorRes int colorResId) {
@@ -295,6 +312,7 @@ public class CommonToolbar extends Toolbar {
     public CharSequence getToolbarTitle() {
         return tv_toolbar_title.getText().toString();
     }
+
 
     public TextView getRightTextView() {
         return tv_toolbar_menu_right;
