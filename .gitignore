@@ -7,3 +7,21 @@
 /build
 /captures
 .externalNativeBuild
+*build 
+*.properties 
+*.iml 
+*.idea 
+*.apk 
+*.o 
+*.lo 
+*.la 
+*.al 
+*.a 
+*.pyc 
+*.pyo 
+__pycache__ 
+*.rej 
+*~ #*# .#* 
+.*.swp 
+.DS_Store 
+[Tt]humbs.db
