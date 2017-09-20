@@ -136,10 +136,6 @@ public abstract class BaseActivity<T extends IBasePresenter> extends RxAppCompat
         startActivity(intent);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
 
     public void openActivity(Class<? extends Activity> cls) {
         this.startActivity(new Intent(this, cls));

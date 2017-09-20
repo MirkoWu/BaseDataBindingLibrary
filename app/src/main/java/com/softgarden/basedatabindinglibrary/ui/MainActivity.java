@@ -22,6 +22,7 @@ public class MainActivity extends DataBindingActivity<BasePresenter,ActivityMain
 
     @Override
     protected void initialize() {
+        getToolbar().setTitle("改个标题");
         binding.setTest(new TestBean("测试"));
         binding.setTest(new TestBean("seses"));
         binding.tvHello.setText("");
