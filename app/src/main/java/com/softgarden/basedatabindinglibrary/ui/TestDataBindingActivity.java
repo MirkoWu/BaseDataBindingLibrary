@@ -30,8 +30,8 @@ public class TestDataBindingActivity extends DataBindingActivity<BasePresenter,A
     @Override
     protected void initialize() {
         //当然还可以这样
-       // getToolbar().setToolbarTitle();//在这里记得要用setToolbarTitle   不要setTitle（）
-       // getToolbar().setToolbarBackgroundColor();
+//        getToolbar().setTitle();//在这里记得要用setToolbarTitle   不要setTitle（）
+//        getToolbar().setTitleColor();
 //        getToolbar().showTextRight();
 //        ....
        //如果这些还不满足 可以 这样 拿到你想要的控件自己设置
