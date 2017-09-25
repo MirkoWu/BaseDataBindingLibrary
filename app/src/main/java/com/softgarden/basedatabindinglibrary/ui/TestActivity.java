@@ -5,12 +5,12 @@ import com.softgarden.basedatabindinglibrary.bean.GoodsBean;
 import com.softgarden.basedatabindinglibrary.databinding.ActivityTestBinding;
 import com.softgarden.basedatabindinglibrary.ui.goodsList.GoodsListContract;
 import com.softgarden.basedatabindinglibrary.ui.goodsList.GoodsListPresenter;
-import com.softgarden.baselibrary.base.databinding.DataBindingActivity;
+import com.softgarden.baselibrary.base.BaseActivity;
 import com.softgarden.baselibrary.widget.CommonToolbar;
 
 import java.util.List;
 
-public class TestActivity extends DataBindingActivity<GoodsListPresenter,ActivityTestBinding> implements GoodsListContract.Display{
+public class TestActivity extends BaseActivity<GoodsListPresenter,ActivityTestBinding> implements GoodsListContract.Display{
 
 
 

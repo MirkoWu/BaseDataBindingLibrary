@@ -2,12 +2,10 @@ package com.softgarden.baselibrary.base;
 
 import android.databinding.ViewDataBinding;
 
-import com.softgarden.baselibrary.base.databinding.DataBindingFragment;
-
 /**
  * Fragment基类 懒加载
  */
-public abstract class BaseLazyFragment<T extends IBasePresenter, B extends ViewDataBinding> extends DataBindingFragment<T, B> {
+public abstract class BaseLazyFragment<T extends IBasePresenter, B extends ViewDataBinding> extends BaseFragment<T, B> {
 
     private static final String TAG = BaseLazyFragment.class.getSimpleName();
     private boolean isPrepared;

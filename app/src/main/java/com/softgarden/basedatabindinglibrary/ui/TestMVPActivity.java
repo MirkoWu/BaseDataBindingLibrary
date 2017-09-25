@@ -4,11 +4,11 @@ import com.softgarden.basedatabindinglibrary.R;
 import com.softgarden.basedatabindinglibrary.databinding.ActivityTestDataBindingBinding;
 import com.softgarden.baselibrary.base.BaseContract;
 import com.softgarden.baselibrary.base.BasePresenter;
-import com.softgarden.baselibrary.base.databinding.DataBindingActivity;
+import com.softgarden.baselibrary.base.BaseActivity;
 import com.softgarden.baselibrary.widget.CommonToolbar;
 
 
-public class TestDataBindingActivity extends DataBindingActivity<BasePresenter,ActivityTestDataBindingBinding> implements BaseContract.Display {
+public class TestMVPActivity extends BaseActivity<BasePresenter,ActivityTestDataBindingBinding> implements BaseContract.Display {
 
     @Override
     protected int getLayoutId() {
@@ -30,18 +30,26 @@ public class TestDataBindingActivity extends DataBindingActivity<BasePresenter,A
     @Override
     protected void initialize() {
         //当然还可以这样
-//        getToolbar().setTitle();//在这里记得要用setToolbarTitle   不要setTitle（）
-//        getToolbar().setTitleColor();
+       // getToolbar().setTitle();//
+       // getToolbar().setToolbarBackgroundColor();
 //        getToolbar().showTextRight();
 //        ....
        //如果这些还不满足 可以 这样 拿到你想要的控件自己设置
         getToolbar().getRightTextView();
         getToolbar().getLeftTextView();
-        getToolbar().getLeftImgageView().setOnClickListener(v -> {});
+        getToolbar().getLeftImageView().setOnClickListener(v -> {});
         getToolbar().getRightImageView();
 
         //本toolbar只适用于一般的场景  特殊布局要自己写
 
+        binding.tvText.setText("这里做一个完整的 Databinding 和MVP 的演示步骤\n" +
+                "\\n1.创建完Activity。\n" +
+                "\\n2.在布局XML 跟布局写上 《layout》《/layout》 标签 即用此标签嵌套所有的布局。\n" +
+                "\\n3.给Activity 创建 Contract 和 Presenter 。（2 ，3步骤随意）\n" +
+                "\\n4.给Activity 添加泛型，即Activity《Presenter,ActivityBinding》 ，最后要注意 implments Contract.Display。\n" +
+                "\\n其中的ActivityBinding命名规范是一定的 ，布局文件驼峰式，后面加上Binding,例：activity_main.xml  --》ActivityMainBinding.如果binding没有生成 需要编译一下\n" +
+                "\\n5.实现各方法.\n" +
+                "\\n6,有需要 加toolbar的，可以在setToolbar()方法 返回  new CommonToolbar.Builder().setTitle().showLeft().showRight()......build(this);\n");
 
     }
 }

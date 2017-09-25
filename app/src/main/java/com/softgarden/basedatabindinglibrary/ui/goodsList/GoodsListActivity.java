@@ -3,6 +3,7 @@ package com.softgarden.basedatabindinglibrary.ui.goodsList;
 import android.view.View;
 
 import com.mirkowu.library.listener.OnViewClickListener;
+import com.softgarden.basedatabindinglibrary.BR;
 import com.softgarden.basedatabindinglibrary.R;
 import com.softgarden.basedatabindinglibrary.bean.GoodsBean;
 import com.softgarden.basedatabindinglibrary.ui.RefreshActivity;
@@ -33,7 +34,7 @@ public class GoodsListActivity extends RefreshActivity<GoodsListPresenter, Layou
     @Override
     protected void initialize() {
         super.initialize();
-        goodsAdapter = new DataBindingAdapter<GoodsBean>(R.layout.item_goods, com.softgarden.basedatabindinglibrary.BR.goods);
+        goodsAdapter = new DataBindingAdapter<GoodsBean>(R.layout.item_goods, BR.goods);
         binding.mRecyclerView.setAdapter(goodsAdapter);
         goodsAdapter.setOnViewClickListener(new OnViewClickListener<GoodsBean>() {
             @Override

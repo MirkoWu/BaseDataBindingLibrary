@@ -1,20 +1,34 @@
 package com.softgarden.basedatabindinglibrary.ui;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 
 import com.aitangba.swipeback.SwipeBackHelper;
 import com.softgarden.basedatabindinglibrary.R;
+import com.softgarden.basedatabindinglibrary.databinding.ActivitySwipeBackBinding;
+import com.softgarden.baselibrary.base.databinding.DataBindingActivity;
+import com.softgarden.baselibrary.widget.CommonToolbar;
 
-public class SwipeBackActivity extends AppCompatActivity implements SwipeBackHelper.SlideBackManager {
+/**
+ * 可侧滑退出的activity
+ * 继承该activity 或者实现具体方法即可方法
+ */
+public class SwipeBackActivity extends DataBindingActivity<ActivitySwipeBackBinding> implements SwipeBackHelper.SlideBackManager {
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getLayoutId() {
+        return R.layout.activity_swipe_back;
+    }
+
+    @Override
+    protected CommonToolbar setToolbar() {
+        return null;
+    }
+
+    @Override
+    protected void initialize() {
+        binding.tvText.setText("可侧滑退出的activity\n" +
+                "  继承该activity 或者实现具体方法即可方法");
     }
 
     protected SwipeBackHelper mSwipeBackHelper;
@@ -49,5 +63,10 @@ public class SwipeBackActivity extends AppCompatActivity implements SwipeBackHel
             mSwipeBackHelper = null;
         }
         super.finish();
+    }
+
+    @Override
+    public void showError(Throwable throwable) {
+
     }
 }

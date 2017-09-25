@@ -1,147 +1,152 @@
 package com.softgarden.baselibrary.widget;
 
+import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntDef;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import com.softgarden.baselibrary.R;
 
 /**
  * Created by Lightwave on 2016/7/5.
  */
 public class ColorDividerDecoration extends RecyclerView.ItemDecoration {
+
+    public static final int HORIZONTAL = OrientationHelper.HORIZONTAL;
+    public static final int VERTICAL = OrientationHelper.VERTICAL;
+
+    public static final int BEGINNING_MIDDLE = 0;
+    public static final int MIDDLE = 1;
+    public static final int MIDDLE_END = 2;
+
+    private Context mContext;
     /**
-     * @hide
+     * 画笔
      */
-    @IntDef(flag = true,
-            value = {
-                    SHOW_DIVIDER_BEGINNING_MIDDLE,
-                    SHOW_DIVIDER_MIDDLE,
-                    SHOW_DIVIDER_MIDDLE_END,
-            })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface DividerMode {
-    }
-
+    private Paint mPaint;
     /**
-     * SHOW_DIVIDER_MIDDLE_END
+     * 方向 默认垂直方向
      */
-    public static final int SHOW_DIVIDER_MIDDLE_END = 0;
-
-    public static final int SHOW_DIVIDER_MIDDLE = 1;
+    private int mOrientation = VERTICAL;
     /**
-     * SHOW_DIVIDER_BEGINNING_MIDDLE
+     * 分割线颜色
      */
-    public static final int SHOW_DIVIDER_BEGINNING_MIDDLE = 2;
+    private int mDividerColor;
+    /**
+     * 分割线高度
+     */
+    private int mDividerHeight;
+    /**
+     * 分割线显示模式 头部和中间  仅显示中间  中间和底部
+     */
+    private int mShowDividers;
+
+//    private int mPadding;//
+//    private int mLeftPadding;//
+//    private int mRightPadding;//
 
 
-    private int showDividers;//defalut= SHOW_DIVIDER_BEGINNING_MIDDLE
-
-    public static final int HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;
-    public static final int VERTICAL_LIST = LinearLayoutManager.VERTICAL;
-
-    private int mOrientation;
-    private float dividerHeight;
-    private Paint paint;
-
-
-    public ColorDividerDecoration() {
-        this(VERTICAL_LIST);
+    public ColorDividerDecoration(Context mContext) {
+        this(mContext, VERTICAL, R.color.common_line_color, 1, BEGINNING_MIDDLE);
     }
 
-    public ColorDividerDecoration(int orientation) {
-        this(orientation, Color.BLACK, 1);
+    public ColorDividerDecoration(Context mContext, @ColorRes int mDividerColor, int mDividerHeight) {
+        this(mContext, VERTICAL, mDividerColor, mDividerHeight, BEGINNING_MIDDLE);
     }
 
-    public ColorDividerDecoration(@ColorInt int divider, int dividerHeight) {
-        this(VERTICAL_LIST, divider, dividerHeight);
-    }
-
-    public ColorDividerDecoration(int orientation, @ColorInt int divider, float dividerHeight) {
-
-        this(orientation, divider, dividerHeight, SHOW_DIVIDER_MIDDLE_END);
-    }
-
-    public ColorDividerDecoration(int orientation, @ColorInt int divider, float dividerHeight, int showDividers) {
-        setOrientation(orientation);
-        paint = new Paint();
-        paint.setColor(divider);
-        paint.setAntiAlias(true);
-        this.dividerHeight = dividerHeight;
-        this.showDividers = showDividers;
+    public ColorDividerDecoration(Context mContext, int mOrientation, @ColorRes int mDividerColor, int mDividerHeight) {
+        this(mContext, mOrientation, mDividerColor, mDividerHeight, BEGINNING_MIDDLE);
     }
 
 
-    public void setOrientation(int orientation) {
-        if (orientation != HORIZONTAL_LIST && orientation != VERTICAL_LIST) {
-            throw new IllegalArgumentException("invalid orientation");
-        }
-        mOrientation = orientation;
+    public ColorDividerDecoration(Context mContext, int mOrientation, @ColorRes int mDividerColor, int mDividerHeight, int mShowDividers) {
+        this.mContext = mContext;
+        this.mOrientation = mOrientation;
+        this.mDividerColor = ContextCompat.getColor(mContext, mDividerColor);
+        this.mDividerHeight = mDividerHeight;
+        this.mShowDividers = mShowDividers;
+        initPaint();
+    }
+
+    private void initPaint() {
+        mPaint = new Paint();
+        mPaint.setColor(mDividerColor);
+        mPaint.setAntiAlias(true);
     }
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        if (mOrientation == VERTICAL_LIST) {
+        if (mOrientation == VERTICAL) {
             drawVertical(c, parent);
         } else {
             drawHorizontal(c, parent);
         }
     }
 
-    public void drawVertical(Canvas c, RecyclerView parent) {
-        final int left = parent.getPaddingLeft();
-        final int right = parent.getWidth() - parent.getPaddingRight();
-
-        int childCount = parent.getChildCount();
-        childCount = showDividers == SHOW_DIVIDER_MIDDLE ? childCount - 1 : childCount;//不画最后一个
-
-        for (int i = 0; i < childCount; i++) {
-            final View child = parent.getChildAt(i);
-            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-            final int top = child.getBottom() + params.bottomMargin;
-            final int bottom = (int) (top + dividerHeight);
-            c.drawRect(left, top, right, bottom, paint);
-        }
-    }
-
-
+    /**
+     * @param c
+     * @param parent
+     */
     public void drawHorizontal(Canvas c, RecyclerView parent) {
         final int top = parent.getPaddingTop();
         final int bottom = parent.getHeight() - parent.getPaddingBottom();
 
         int childCount = parent.getChildCount();
-        childCount = showDividers == SHOW_DIVIDER_MIDDLE ? childCount - 1 : childCount;//不画最后一个
+        childCount = mShowDividers == MIDDLE ? childCount - 1 : childCount;//不画最后一个
 
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
             final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
             final int left = child.getRight() + params.rightMargin;
-            final int right = (int) (left + dividerHeight);
-            c.drawRect(left, top, right, bottom, paint);
+            final int right = left + mDividerHeight;
+            c.drawRect(left, top, right, bottom, mPaint);
+        }
+    }
+
+    /**
+     * @param c
+     * @param parent
+     */
+
+    public void drawVertical(Canvas c, RecyclerView parent) {
+        final int left = parent.getPaddingLeft();
+        final int right = parent.getWidth() - parent.getPaddingRight();
+
+        int childCount = parent.getChildCount();
+        childCount = mShowDividers == MIDDLE ? childCount - 1 : childCount;//不画最后一个
+
+        for (int i = 0; i < childCount; i++) {
+            final View child = parent.getChildAt(i);
+            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            final int top = child.getBottom() + params.bottomMargin;
+            final int bottom = top + mDividerHeight;
+            c.drawRect(left, top, right, bottom, mPaint);
         }
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        if (mOrientation == VERTICAL_LIST) {
-            if (showDividers == SHOW_DIVIDER_BEGINNING_MIDDLE) {
-                outRect.set(0, (int) dividerHeight, 0, 0);
+        if (mOrientation == VERTICAL) {
+            if (mShowDividers == BEGINNING_MIDDLE) {
+                outRect.set(0, mDividerHeight, 0, 0);
             } else {
-                outRect.set(0, 0, 0, (int) dividerHeight);
+                outRect.set(0, 0, 0, mDividerHeight);
             }
         } else {
-            if (showDividers == SHOW_DIVIDER_BEGINNING_MIDDLE) {
-                outRect.set((int) dividerHeight, 0, 0, 0);
+            if (mShowDividers == BEGINNING_MIDDLE) {
+                outRect.set(mDividerHeight, 0, 0, 0);
             } else {
-                outRect.set(0, 0, (int) dividerHeight, 0);
+                outRect.set(0, 0, mDividerHeight, 0);
             }
         }
+    }
+
+    public void setOrientation(int orientation) {
+        this.mOrientation = orientation;
     }
 }

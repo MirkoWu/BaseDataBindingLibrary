@@ -15,10 +15,9 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Lightwave on 2016/6/28.
  */
 public class NetworkTransformerHelper<T> implements ObservableTransformer<BaseBean<T>, T> {
-    private IBaseDisplay view;
-
-    public NetworkTransformerHelper(IBaseDisplay view) {
-        this.view = view;
+    private IBaseDisplay mView;
+    public NetworkTransformerHelper(IBaseDisplay mView) {
+        this.mView = mView;
     }
 
     @Override
@@ -26,13 +25,13 @@ public class NetworkTransformerHelper<T> implements ObservableTransformer<BaseBe
         return upstream
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> view.showProgressDialog())
-                .doOnTerminate(view::hideProgressDialog)
+                .doOnSubscribe(disposable -> mView.showProgressDialog())
+                .doOnTerminate(mView::hideProgressDialog)
                 .map(baseBean -> {
                     if (baseBean.status == 1) {
                         return baseBean;
                     } else {
-                        view.hideProgressDialog();
+                        mView.hideProgressDialog();
                         //TODO   ToastUtil.s(baseBean.errorMsg); 还是放到activity 和fragment 显示吧
                         throw Exceptions.propagate(new ApiException(baseBean.status, baseBean.info));
                     }
@@ -43,8 +42,10 @@ public class NetworkTransformerHelper<T> implements ObservableTransformer<BaseBe
                     }
                     return baseBean;
                 })
-                .map(baseBean -> baseBean.data)
-                .compose(view.bindToLifecycle());
+                .map(baseBean ->
+                        baseBean.data
+                )
+                .compose(mView.bindToLifecycle());
 
     }
 }

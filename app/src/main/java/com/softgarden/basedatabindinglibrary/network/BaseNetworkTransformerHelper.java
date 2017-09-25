@@ -3,6 +3,8 @@ package com.softgarden.basedatabindinglibrary.network;
 
 import com.softgarden.baselibrary.base.IBaseDisplay;
 
+import java.lang.reflect.Type;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -15,10 +17,10 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Lightwave on 2016/6/28.
  */
 public class BaseNetworkTransformerHelper<T> implements ObservableTransformer<BaseBean<T>, T> {
-    private IBaseDisplay view;
+    private IBaseDisplay mView;
 
-    public BaseNetworkTransformerHelper(IBaseDisplay view) {
-        this.view = view;
+    public BaseNetworkTransformerHelper(IBaseDisplay mView) {
+        this.mView = mView;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class BaseNetworkTransformerHelper<T> implements ObservableTransformer<Ba
                     if (baseBean.status == 1) {
                         return baseBean;
                     } else {
-                        view.hideProgressDialog();
+                        mView.hideProgressDialog();
                         //TODO   ToastUtil.s(baseBean.errorMsg); 还是放到activity 和fragment 显示吧
                         throw Exceptions.propagate(new ApiException(baseBean.status, baseBean.info));
                     }
@@ -41,8 +43,10 @@ public class BaseNetworkTransformerHelper<T> implements ObservableTransformer<Ba
                     }
                     return baseBean;
                 })
-                .map(baseBean -> baseBean.data)
-                .compose(view.bindToLifecycle());
+                .map(baseBean ->
+                       baseBean.data
+                )
+                .compose(mView.bindToLifecycle());
 
     }
 }

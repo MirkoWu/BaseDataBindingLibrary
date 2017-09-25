@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,7 +9,8 @@
     tools:context="com.softgarden.basedatabindinglibrary.ui.TestBaseActivity">
 
     <TextView
+        android:id="@+id/tv_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="此基类Activity  可以接Presenter Contract 变成MVP 模式，也可以什么泛型都不写 当一个普通的Activity使用" />
+        android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>
+</layout>
