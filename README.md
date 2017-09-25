@@ -3,8 +3,8 @@
 ---
 建议以library形式导入到项目，方便调整
 
-
-##### Copyright 2017 MirkoWu
+---
+#### Copyright 2017 MirkoWu
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
