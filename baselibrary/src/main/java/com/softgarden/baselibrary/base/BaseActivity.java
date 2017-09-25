@@ -3,6 +3,7 @@ package com.softgarden.baselibrary.base;
 import android.databinding.ViewDataBinding;
 
 import com.softgarden.baselibrary.BuildConfig;
+import com.softgarden.baselibrary.base.databinding.DataBindingActivity;
 import com.softgarden.baselibrary.utils.InstanceUtil;
 import com.softgarden.baselibrary.utils.ToastUtil;
 
@@ -12,7 +13,7 @@ import java.lang.reflect.ParameterizedType;
  * 可以使用DataBinding的 Activity的基类
  */
 
-public abstract class BaseActivity<T extends IBasePresenter, B extends ViewDataBinding> extends com.softgarden.baselibrary.base.databinding.DataBindingActivity<B> {
+public abstract class BaseActivity<T extends IBasePresenter, B extends ViewDataBinding> extends DataBindingActivity<B> {
     protected T mPresenter;
 
     @Override

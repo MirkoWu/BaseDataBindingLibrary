@@ -28,7 +28,7 @@ public class SwipeBackActivity extends DataBindingActivity<ActivitySwipeBackBind
     @Override
     protected void initialize() {
         binding.tvText.setText("可侧滑退出的activity\n" +
-                "  继承该activity 或者实现具体方法即可方法");
+                "  继承该activity 或者实现具体方法即可");
     }
 
     protected SwipeBackHelper mSwipeBackHelper;

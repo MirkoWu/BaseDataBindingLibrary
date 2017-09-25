@@ -30,7 +30,7 @@ public class TestMVPActivity extends BaseActivity<BasePresenter,ActivityTestData
     @Override
     protected void initialize() {
         //当然还可以这样
-       // getToolbar().setTitle();//
+       // getToolbar().setToolbarTitle();//
        // getToolbar().setToolbarBackgroundColor();
 //        getToolbar().showTextRight();
 //        ....

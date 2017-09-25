@@ -1,11 +1,10 @@
 package com.softgarden.basedatabindinglibrary.ui;
 
 import com.softgarden.basedatabindinglibrary.R;
-import com.softgarden.basedatabindinglibrary.databinding.ActivityTestBaseBinding;
-import com.softgarden.baselibrary.base.databinding.DataBindingActivity;
+import com.softgarden.baselibrary.base.BaseActivity;
 import com.softgarden.baselibrary.widget.CommonToolbar;
 
-public class TestBaseActivity extends DataBindingActivity<ActivityTestBaseBinding> {
+public class TestBaseActivity extends BaseActivity {
 
 
     @Override
@@ -20,11 +19,6 @@ public class TestBaseActivity extends DataBindingActivity<ActivityTestBaseBindin
 
     @Override
     protected void initialize() {
-        binding.tvText.setText("此类Activity,只需继承DataBindingActivity，用于简单的界面");
-    }
-
-    @Override
-    public void showError(Throwable throwable) {
 
     }
 }

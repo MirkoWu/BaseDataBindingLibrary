@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.softgarden.basedatabindinglibrary.R;
 import com.softgarden.basedatabindinglibrary.app.Constants;
-import com.softgarden.baselibrary.base.databinding.DataBindingActivity;
+import com.softgarden.baselibrary.base.BaseActivity;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import io.reactivex.Observable;
@@ -157,7 +157,7 @@ public class ImageUtil {
                 .into(imageView);
     }
 
-    public static Observable<Boolean> clearCache(DataBindingActivity context) {
+    public static Observable<Boolean> clearCache(BaseActivity context) {
         return Observable.create((ObservableOnSubscribe<Boolean>) e -> {
             Glide.get(context).clearDiskCache();
             e.onNext(true);
