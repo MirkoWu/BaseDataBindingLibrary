@@ -10,6 +10,7 @@ import com.softgarden.basedatabindinglibrary.ui.RefreshActivity;
 import com.softgarden.basedatabindinglibrary.ui.SwipeBackActivity;
 import com.softgarden.baselibrary.base.databinding.DataBindingAdapter;
 import com.softgarden.baselibrary.databinding.LayoutRecyclerviewBinding;
+import com.softgarden.baselibrary.widget.ColorDividerDecoration;
 import com.softgarden.baselibrary.widget.CommonToolbar;
 
 import java.util.List;
@@ -34,7 +35,12 @@ public class GoodsListActivity extends RefreshActivity<GoodsListPresenter, Layou
     @Override
     protected void initialize() {
         super.initialize();
+        /**
+         * 关于Adapter 的定义 内容较少 的可以直接new
+         * 逻辑较复杂的建议单写一个Adapter 不要所有东西全放到xml中
+         */
         goodsAdapter = new DataBindingAdapter<GoodsBean>(R.layout.item_goods, BR.goods);
+        binding.mRecyclerView.addItemDecoration(new ColorDividerDecoration(getActivity()));
         binding.mRecyclerView.setAdapter(goodsAdapter);
         goodsAdapter.setOnViewClickListener(new OnViewClickListener<GoodsBean>() {
             @Override
