@@ -20,11 +20,10 @@ import com.softgarden.baselibrary.R;
 
 import java.lang.reflect.Field;
 
-
 /**
- * 通用的Toolbar
- * 只用于一般的布局，特殊布局需另外单独写
+ * Created by Administrator on 2016/10/10 0010.
  */
+
 public class CommonToolbar extends Toolbar {
     private RelativeLayout layout_toolbar;
     private ImageView img_toolbar_back_button;
@@ -32,6 +31,7 @@ public class CommonToolbar extends Toolbar {
     private AppCompatTextView tv_toolbar_title;
     private ImageView img_toolbar_menu_right;
     private TextView tv_toolbar_menu_right;
+    private boolean showSplitLine = true;//是否显示分割线
 
     public CommonToolbar(Context context) {
         this(context, null);
@@ -83,11 +83,178 @@ public class CommonToolbar extends Toolbar {
     }
 
 
+    /**
+     * 设置返回按钮,image
+     */
+    public void setBackButton(@DrawableRes int imageViewId) {
+        if (imageViewId == 0) {
+            img_toolbar_back_button.setVisibility(View.INVISIBLE);
+            return;
+        }
+        img_toolbar_back_button.setVisibility(View.VISIBLE);
+        img_toolbar_back_button.setImageResource(imageViewId);
+        img_toolbar_back_button.setOnClickListener(v ->
+                ((Activity) getContext()).onBackPressed());
+    }
+
+    /**
+     * 显示图形菜单按钮,右边
+     */
+    public void showImageLeft(@DrawableRes int resId, OnClickListener listener) {
+        img_toolbar_back_button.setVisibility(View.VISIBLE);
+        img_toolbar_back_button.setImageResource(resId);
+        img_toolbar_back_button.setOnClickListener(listener);
+    }
+
+    /**
+     * 显示文本菜单按钮
+     */
+    public void showTextLeft(CharSequence content, OnClickListener listener) {
+        tv_toolbar_menu_left.setVisibility(View.VISIBLE);
+        tv_toolbar_menu_left.setText(content);
+        tv_toolbar_menu_left.setOnClickListener(listener);
+    }
+
+    public void showTextLeft(@StringRes int resId, OnClickListener listener) {
+        showTextLeft(getContext().getText(resId), listener);
+    }
+
+    /**
+     * 显示文本菜单按钮
+     *
+     * @param content
+     * @param listener
+     */
+    public void showTextRight(CharSequence content, OnClickListener listener) {
+        tv_toolbar_menu_right.setVisibility(View.VISIBLE);
+        tv_toolbar_menu_right.setText(content);
+        tv_toolbar_menu_right.setOnClickListener(listener);
+    }
+
+    public void showTextRight(@StringRes int content, OnClickListener listener) {
+        showTextRight(getContext().getText(content), listener);
+    }
+
+    /**
+     * 显示图形菜单按钮,右边
+     */
+    public void showImageRight(@DrawableRes int resId, OnClickListener listener) {
+        img_toolbar_menu_right.setVisibility(View.VISIBLE);
+        img_toolbar_menu_right.setImageResource(resId);
+        img_toolbar_menu_right.setOnClickListener(listener);
+    }
+
+    /**
+     * 隐藏返回按钮
+     */
+    public void hideBackButton() {
+        img_toolbar_back_button.setVisibility(View.GONE);
+    }
+
+    /**
+     * 隐藏文本菜单按钮
+     */
+    public void hideTextLeft() {
+        tv_toolbar_menu_left.setVisibility(View.GONE);
+    }
+
+    /**
+     * 隐藏文本菜单按钮
+     */
+    public void hideTextRight() {
+        tv_toolbar_menu_right.setVisibility(View.GONE);
+    }
+
+    /**
+     * 隐藏图形菜单按钮
+     */
+    public void hideImageRight() {
+        img_toolbar_menu_right.setVisibility(View.GONE);
+    }
+
+
+    /**
+     * 设置 title
+     *
+     * @param title
+     */
+    @Override
+    public void setTitle(CharSequence title) {
+        tv_toolbar_title.setText(title);
+    }
+
+    @Override
+    public void setTitle(@StringRes int resId) {
+        setTitle(getContext().getText(resId));
+    }
+
+    /**
+     * 获取title
+     *
+     * @return
+     */
+    @Override
+    public CharSequence getTitle() {
+        return tv_toolbar_title.getText();
+    }
+
+    /**
+     * 设置title 颜色
+     *
+     * @param color
+     */
+    @Override
+    public void setTitleTextColor(@ColorRes int color) {
+        tv_toolbar_title.setTextColor(ContextCompat.getColor(getContext(), color));
+    }
+
+    /**
+     * 设置整个toolbar背景色
+     *
+     * @param colorResId
+     */
+    @Override
+    public void setBackgroundColor(@ColorRes int colorResId) {
+        layout_toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), colorResId));
+    }
+
+    public void setStatusBarPadding() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//android 19 4.4 以上才支持沉浸式
+            int statusBarHeight = getStatusBarHeight();
+            LayoutParams params = (LayoutParams) layout_toolbar.getLayoutParams();
+            params.height = params.height + statusBarHeight;
+            layout_toolbar.setPadding(0, statusBarHeight, 0, 0);
+        }
+    }
+
+    public TextView getTitleTextView() {
+        return tv_toolbar_title;
+    }
+
+    public TextView getRightTextView() {
+        return tv_toolbar_menu_right;
+    }
+
+    public ImageView getRightImageView() {
+        return img_toolbar_menu_right;
+    }
+
+    public ImageView getLeftImageView() {
+        return img_toolbar_back_button;
+    }
+
+    public TextView getLeftTextView() {
+        return tv_toolbar_menu_left;
+    }
+
+
+    /**
+     * builder 模式
+     */
     public static class Builder {
         private CharSequence title, leftStr, rightStr;
-        private int titleResId, backgroundColorResId, leftImgResId = -1, leftStrResId, rightImgResId, rightStrResId;
-        private OnClickListener leftOnClickListener;
-        private OnClickListener rightOnClickListener;
+        private int titleResId, backgroundColorResId, leftImgResId, leftStrResId, rightImgResId, rightStrResId;
+        private OnClickListener leftOnClickListener, rightOnClickListener;
 
         public Builder setBackButton(@DrawableRes int leftImgResId) {
             this.leftImgResId = leftImgResId;
@@ -144,16 +311,14 @@ public class CommonToolbar extends Toolbar {
         public CommonToolbar build(Activity activity) {
             CommonToolbar toolbar = new CommonToolbar(activity);
             //setBackgroundColor
-            if (backgroundColorResId > 0) toolbar.setToolbarBackgroundColor(backgroundColorResId);
+            if (backgroundColorResId > 0) toolbar.setBackgroundColor(backgroundColorResId);
+            //default backbuttton
+            toolbar.setBackButton(R.mipmap.back);
             //left
             if (TextUtils.isEmpty(leftStr)) {
                 if (leftStrResId > 0) toolbar.showTextLeft(leftStrResId, leftOnClickListener);
             } else toolbar.showTextLeft(leftStr, leftOnClickListener);
-
-            //default backbuttton
-            toolbar.setBackButton(R.mipmap.back);
-            if (leftImgResId >= 0) toolbar.setBackButton(leftImgResId);
-
+            if (leftImgResId > 0) toolbar.setBackButton(leftImgResId);
             //right
             if (TextUtils.isEmpty(rightStr)) {
                 if (rightStrResId > 0) toolbar.showTextRight(rightStrResId, rightOnClickListener);
@@ -168,141 +333,6 @@ public class CommonToolbar extends Toolbar {
             System.out.println("CommonToolbar.Builder.build");
             return toolbar;
         }
-    }
-
-
-    /**
-     * 设置返回按钮,image
-     */
-    public void setBackButton(@DrawableRes int imageViewId) {
-        if (imageViewId == 0) {
-            img_toolbar_back_button.setVisibility(View.GONE);
-            return;
-        }
-        img_toolbar_back_button.setVisibility(View.VISIBLE);
-        img_toolbar_back_button.setImageResource(imageViewId);
-        img_toolbar_back_button.setOnClickListener(v ->
-                ((Activity) getContext()).onBackPressed());
-    }
-
-    /**
-     * 显示文本菜单按钮
-     */
-    public void showTextLeft(CharSequence content, OnClickListener listener) {
-        tv_toolbar_menu_left.setVisibility(View.VISIBLE);
-        tv_toolbar_menu_left.setText(content);
-        tv_toolbar_menu_left.setOnClickListener(listener);
-    }
-
-    public void showTextLeft(@StringRes int content, OnClickListener listener) {
-        tv_toolbar_menu_left.setVisibility(View.VISIBLE);
-        tv_toolbar_menu_left.setText(content);
-        tv_toolbar_menu_left.setOnClickListener(listener);
-    }
-
-    /**
-     * 显示文本菜单按钮
-     *
-     * @param content
-     * @param listener
-     */
-    public void showTextRight(CharSequence content, OnClickListener listener) {
-        tv_toolbar_menu_right.setVisibility(View.VISIBLE);
-        tv_toolbar_menu_right.setText(content);
-        tv_toolbar_menu_right.setOnClickListener(listener);
-    }
-
-    public void showTextRight(@StringRes int content, OnClickListener listener) {
-        tv_toolbar_menu_right.setVisibility(View.VISIBLE);
-        tv_toolbar_menu_right.setText(content);
-        tv_toolbar_menu_right.setOnClickListener(listener);
-    }
-
-    /**
-     * 显示图形菜单按钮,右边
-     */
-    public void showImageRight(@DrawableRes int resId, OnClickListener listener) {
-        img_toolbar_menu_right.setVisibility(View.VISIBLE);
-        img_toolbar_menu_right.setImageResource(resId);
-        img_toolbar_menu_right.setOnClickListener(listener);
-    }
-
-    /**
-     * 隐藏返回按钮
-     */
-    public void hideBackButton() {
-        img_toolbar_back_button.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * 隐藏文本菜单按钮
-     */
-    public void hideTextMenu_left() {
-        tv_toolbar_menu_left.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * 隐藏文本菜单按钮
-     */
-    public void hideTextMenu_right() {
-        tv_toolbar_menu_right.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * 隐藏图形菜单按钮
-     */
-    public void hideImageMenu_right() {
-        img_toolbar_menu_right.setVisibility(View.INVISIBLE);
-    }
-
-
-    @Override
-    public void setTitle(CharSequence title) {
-        tv_toolbar_title.setText(title);
-    }
-
-    @Override
-    public void setTitle(int title) {
-        tv_toolbar_title.setText(title);
-    }
-
-    @Override
-    public CharSequence getTitle() {
-        return tv_toolbar_title.getText().toString();
-    }
-
-
-    public void setTitleTextColor(@ColorRes int color) {
-        tv_toolbar_title.setTextColor(ContextCompat.getColor(getContext(), color));
-    }
-
-    public void setToolbarBackgroundColor(@ColorRes int colorResId) {
-        layout_toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), colorResId));
-    }
-
-    public void setStatusBarPadding() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//android 19 4.4 以上才支持沉浸式
-            int statusBarHeight = getStatusBarHeight();
-            LayoutParams params = (LayoutParams) layout_toolbar.getLayoutParams();
-            params.height = params.height + statusBarHeight;
-            layout_toolbar.setPadding(0, statusBarHeight, 0, 0);
-        }
-    }
-
-    public TextView getRightTextView() {
-        return tv_toolbar_menu_right;
-    }
-
-    public ImageView getRightImageView() {
-        return img_toolbar_menu_right;
-    }
-
-    public ImageView getLeftImageView() {
-        return img_toolbar_back_button;
-    }
-
-    public TextView getLeftTextView() {
-        return tv_toolbar_menu_left;
     }
 
 }
