@@ -63,7 +63,6 @@ public abstract class DataBindingActivity<B extends ViewDataBinding> extends RxA
             view.addView(binding.getRoot());
             setContentView(view);
             setSupportActionBar(commonToolbar);//这里将toolbar设置为actionbar
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
         } else {
             binding = DataBindingUtil.setContentView(this, getLayoutId());
         }
