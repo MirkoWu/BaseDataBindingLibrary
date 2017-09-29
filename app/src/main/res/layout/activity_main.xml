@@ -52,12 +52,12 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_hello" />
 
         <Button
-            android:id="@+id/tv_base"
+            android:id="@+id/tv_databinding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:padding="10dp"
-            android:text="BaseActivity"
+            android:text="DataBindingActivity"
             android:textAllCaps="false"
 
             app:layout_constraintLeft_toLeftOf="parent"
@@ -65,17 +65,16 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_list" />
 
         <Button
-            android:id="@+id/tv_databinding"
+            android:id="@+id/tv_mvp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:padding="10dp"
-            android:text="DataBindingActivity"
-
+            android:text="MvpActivity"
             android:textAllCaps="false"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_base" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_databinding" />
 
         <Button
             android:id="@+id/tv_swipeback"
@@ -88,18 +87,8 @@
             android:textAllCaps="false"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_databinding" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_mvp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:padding="10dp"
-            android:text="不想使用mvp 想使用databinding的 也可以像本Activity一样，传一个BasePresenter 即可"
-            android:textAllCaps="false"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_swipeback" />
 
 
     </android.support.constraint.ConstraintLayout>

@@ -21,8 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.SwipeBackActivity" />
-        <activity android:name=".ui.TestActivity" />
-        <activity android:name=".ui.TestBaseActivity" />
+        <activity android:name=".ui.TestDataBindingActivity" />
+        <activity android:name=".ui.TestMVPActivity" />
     </application>
 
 </manifest>

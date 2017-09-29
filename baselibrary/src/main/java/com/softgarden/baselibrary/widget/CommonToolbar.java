@@ -84,17 +84,21 @@ public class CommonToolbar extends Toolbar {
 
 
     /**
-     * 设置返回按钮,image
+     * 设置返回按钮,
+     * image 将资源id设置 <= 0 的值就可以隐藏返回键
      */
-    public void setBackButton(@DrawableRes int imageViewId) {
-        if (imageViewId == 0) {
-            img_toolbar_back_button.setVisibility(View.INVISIBLE);
+    public void setBackButton(@DrawableRes int resId) {
+        if (resId <= 0) {
+            img_toolbar_back_button.setVisibility(View.GONE);
             return;
         }
-        img_toolbar_back_button.setVisibility(View.VISIBLE);
-        img_toolbar_back_button.setImageResource(imageViewId);
-        img_toolbar_back_button.setOnClickListener(v ->
-                ((Activity) getContext()).onBackPressed());
+        showImageLeft(resId, new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getContext() instanceof Activity)
+                    ((Activity) getContext()).onBackPressed();//调用activity的返回键
+            }
+        });
     }
 
     /**
@@ -254,10 +258,23 @@ public class CommonToolbar extends Toolbar {
     public static class Builder {
         private CharSequence title, leftStr, rightStr;
         private int titleResId, backgroundColorResId, leftImgResId, leftStrResId, rightImgResId, rightStrResId;
+        private int backResId = R.mipmap.back;
         private OnClickListener leftOnClickListener, rightOnClickListener;
 
-        public Builder setBackButton(@DrawableRes int leftImgResId) {
+        /**
+         * 优先级比 showImageLeft 低
+         *
+         * @param backResId
+         * @return
+         */
+        public Builder setBackButton(@DrawableRes int backResId) {
+            this.backResId = backResId;
+            return this;
+        }
+
+        public Builder showImageLeft(@DrawableRes int leftImgResId, OnClickListener leftOnClickListener) {
             this.leftImgResId = leftImgResId;
+            this.leftOnClickListener = leftOnClickListener;
             return this;
         }
 
@@ -310,21 +327,27 @@ public class CommonToolbar extends Toolbar {
 
         public CommonToolbar build(Activity activity) {
             CommonToolbar toolbar = new CommonToolbar(activity);
-            //setBackgroundColor
+
+            /*** setBackgroundColor */
             if (backgroundColorResId > 0) toolbar.setBackgroundColor(backgroundColorResId);
-            //default backbuttton
-            toolbar.setBackButton(R.mipmap.back);
-            //left
+
+            /*** default backbuttton 这里默认设置一个返回按钮图标 */
+            toolbar.setBackButton(backResId);
+
+            /*** leftMenu */
             if (TextUtils.isEmpty(leftStr)) {
                 if (leftStrResId > 0) toolbar.showTextLeft(leftStrResId, leftOnClickListener);
             } else toolbar.showTextLeft(leftStr, leftOnClickListener);
-            if (leftImgResId > 0) toolbar.setBackButton(leftImgResId);
-            //right
+            if (leftImgResId > 0) toolbar.showImageRight(leftImgResId, leftOnClickListener);
+
+            /*** rightMenu */
             if (TextUtils.isEmpty(rightStr)) {
-                if (rightStrResId > 0) toolbar.showTextRight(rightStrResId, rightOnClickListener);
+                if (rightStrResId > 0)
+                    toolbar.showTextRight(rightStrResId, rightOnClickListener);
             } else toolbar.showTextRight(rightStr, rightOnClickListener);
             if (rightImgResId > 0) toolbar.showImageRight(rightImgResId, rightOnClickListener);
-            //title
+
+            /*** title */
             if (TextUtils.isEmpty(title)) {
                 if (titleResId > 0) toolbar.setTitle(titleResId);
                 else toolbar.setTitle(null);

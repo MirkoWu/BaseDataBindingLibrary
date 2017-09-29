@@ -29,8 +29,8 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
         binding.tvHello.setText("");
 
         binding.tvList.setOnClickListener(v -> openActivity(GoodsListActivity.class));
-        binding.tvBase.setOnClickListener(v -> openActivity(TestBaseActivity.class));
-        binding.tvList.setOnClickListener(v -> openActivity(TestMVPActivity.class));
+        binding.tvDatabinding.setOnClickListener(v -> openActivity(TestDataBindingActivity.class));
+        binding.tvMvp.setOnClickListener(v -> openActivity(TestMVPActivity.class));
         binding.tvSwipeback.setOnClickListener(v -> openActivity(SwipeBackActivity.class));
     }
 }

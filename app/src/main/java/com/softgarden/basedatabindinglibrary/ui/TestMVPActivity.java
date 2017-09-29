@@ -5,6 +5,7 @@ import com.softgarden.basedatabindinglibrary.databinding.ActivityTestDataBinding
 import com.softgarden.baselibrary.base.BaseContract;
 import com.softgarden.baselibrary.base.BasePresenter;
 import com.softgarden.baselibrary.base.BaseActivity;
+import com.softgarden.baselibrary.utils.ToastUtil;
 import com.softgarden.baselibrary.widget.CommonToolbar;
 
 
@@ -19,10 +20,10 @@ public class TestMVPActivity extends BaseActivity<BasePresenter,ActivityTestData
     protected CommonToolbar setToolbar() {
         return new CommonToolbar.Builder()
                 .setTitle("标题")//
-                .showImageRight(R.mipmap.ic_launcher,v -> {})//显示右上角菜单
-                .showTextRight("右上角",v -> {})//显示右上角菜单
-                .showTextLeft("左上角",v -> {})//左上角文字  左上角图片 默认是返回 当然也可以设置其他的 看下面的
-                .setBackButton(0)// 不行的时候默认显示返回按钮，当为0 时 隐藏返回按钮
+              //  .showImageRight(R.mipmap.ic_launcher,v -> {})//显示右上角菜单
+                .showTextRight("右上角菜单",v -> ToastUtil.s("右上角菜单"))//显示右上角菜单
+               // .showTextLeft("左上角",v -> {})//左上角文字  左上角图片 默认是返回 当然也可以设置其他的 看下面的
+              //  .setBackButton(0)// 默认显示返回按钮，当为<=0 时 隐藏返回按钮
                 .setBackgroundColor(R.color.colorAccent)//设置背景色
                 .build(this);
     }
@@ -30,14 +31,14 @@ public class TestMVPActivity extends BaseActivity<BasePresenter,ActivityTestData
     @Override
     protected void initialize() {
         //当然还可以这样
-       // getToolbar().setToolbarTitle();//
-       // getToolbar().setToolbarBackgroundColor();
+       // getToolbar().setTitle();//
+       // getToolbar().setBackgroundColor();
 //        getToolbar().showTextRight();
 //        ....
        //如果这些还不满足 可以 这样 拿到你想要的控件自己设置
         getToolbar().getRightTextView();
         getToolbar().getLeftTextView();
-        getToolbar().getLeftImageView().setOnClickListener(v -> {});
+       // getToolbar().getLeftImageView().setOnClickListener(v -> {});//left 和back 是互斥的
         getToolbar().getRightImageView();
 
         //本toolbar只适用于一般的场景  特殊布局要自己写
