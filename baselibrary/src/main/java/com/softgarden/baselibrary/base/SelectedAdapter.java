@@ -3,7 +3,7 @@ package com.softgarden.baselibrary.base;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 
-import com.mirkowu.library.BaseRVHolder;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.softgarden.baselibrary.base.databinding.DataBindingAdapter;
 
 import java.util.ArrayList;
@@ -71,8 +71,8 @@ public class SelectedAdapter<T> extends DataBindingAdapter<T> {
     }
 
     @Override
-    protected void onItemClick(View v, int position) {
-        super.onItemClick(v, position);
+    public void setOnItemClick(View v, int position) {
+        super.setOnItemClick(v, position);
         //设置选择器
         if (openSelecter) {
             if (multiSelected) {
@@ -90,11 +90,13 @@ public class SelectedAdapter<T> extends DataBindingAdapter<T> {
     }
 
     @Override
-    public void onBindViewHolder(BaseRVHolder holder, int position) {
-        holder.isSelected = multiSelected ? selectList.contains(position) : selectIndex == position;//设置状态
-        holder.itemView.setSelected(holder.isSelected);
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        boolean isSelected = multiSelected ? selectList.contains(position) : selectIndex == position;//设置状态
+        holder.itemView.setSelected(isSelected);
         super.onBindViewHolder(holder, position);
     }
+
+
 
 
 }

@@ -2,8 +2,10 @@ package com.softgarden.baselibrary.base;
 
 import android.databinding.ViewDataBinding;
 
+import com.softgarden.baselibrary.BuildConfig;
 import com.softgarden.baselibrary.base.databinding.DataBindingFragment;
 import com.softgarden.baselibrary.utils.InstanceUtil;
+import com.softgarden.baselibrary.utils.ToastUtil;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -38,4 +40,11 @@ public abstract class BaseFragment<T extends IBasePresenter, B extends ViewDataB
         super.onDestroyView();
         if (mPresenter != null) mPresenter.detachView();
     }
+
+    @Override
+    public void showError(Throwable throwable) {
+        ToastUtil.s(throwable.getMessage());
+        if (BuildConfig.DEBUG) throwable.printStackTrace();
+    }
+
 }

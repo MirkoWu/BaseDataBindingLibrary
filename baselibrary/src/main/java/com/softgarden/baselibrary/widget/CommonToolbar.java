@@ -235,20 +235,20 @@ public class CommonToolbar extends Toolbar {
         return tv_toolbar_title;
     }
 
-    public TextView getRightTextView() {
-        return tv_toolbar_menu_right;
+    public TextView getLeftTextView() {
+        return tv_toolbar_menu_left;
     }
 
-    public ImageView getRightImageView() {
-        return img_toolbar_menu_right;
+    public TextView getRightTextView() {
+        return tv_toolbar_menu_right;
     }
 
     public ImageView getLeftImageView() {
         return img_toolbar_back_button;
     }
 
-    public TextView getLeftTextView() {
-        return tv_toolbar_menu_left;
+    public ImageView getRightImageView() {
+        return img_toolbar_menu_right;
     }
 
 

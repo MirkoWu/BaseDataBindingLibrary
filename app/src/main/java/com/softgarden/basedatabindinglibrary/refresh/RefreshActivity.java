@@ -1,10 +1,10 @@
-package com.softgarden.basedatabindinglibrary.ui;
+package com.softgarden.basedatabindinglibrary.refresh;
 
 import android.databinding.ViewDataBinding;
+import android.support.v7.widget.RecyclerView;
 
-import com.mirkowu.library.BaseRVAdapter;
-import com.mirkowu.library.listener.OnLoadMoreListener;
-import com.softgarden.baselibrary.R;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.softgarden.basedatabindinglibrary.app.Constants;
 import com.softgarden.baselibrary.base.BaseActivity;
 import com.softgarden.baselibrary.base.IBasePresenter;
 import com.softgarden.baselibrary.widget.RefreshDelegateLayout;
@@ -12,13 +12,14 @@ import com.softgarden.baselibrary.widget.RefreshDelegateLayout;
 import java.util.List;
 
 /**
- * Created by DELL on 2017/7/28.
+ * @author by DELL
+ * @date on 2017/9/27
+ * @describe 通用的列表刷新Activity
  */
-
-public abstract class RefreshActivity<T extends IBasePresenter, B extends ViewDataBinding> extends BaseActivity<T, B> implements OnLoadMoreListener {
+public abstract class RefreshActivity<T extends IBasePresenter, B extends ViewDataBinding>
+        extends BaseActivity<T, B> implements BaseQuickAdapter.RequestLoadMoreListener {
 
     RefreshDelegateLayout mRefreshLayout;
-
     protected int mPage = 1;
 
     /**
@@ -26,22 +27,14 @@ public abstract class RefreshActivity<T extends IBasePresenter, B extends ViewDa
      */
     @Override
     protected void initialize() {
-        mRefreshLayout = (RefreshDelegateLayout) findViewById(R.id.mRefreshLayout);
-        if (mRefreshLayout != null) {
+        mRefreshLayout = (RefreshDelegateLayout) findViewById(com.softgarden.baselibrary.R.id.mRefreshLayout);
+        if (mRefreshLayout != null)
             mRefreshLayout.setOnRefreshDelegateListener(new RefreshDelegateLayout.OnRefreshDelegateListener() {
                 @Override
                 public void onRefresh() {
                     RefreshActivity.this.onRefresh();
                 }
             });
-//            mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-//                @Override
-//                public void onLoadmore(RefreshLayout refreshlayout) {
-//
-//                }
-//            });
-        }
-
 
     }
 
@@ -71,21 +64,25 @@ public abstract class RefreshActivity<T extends IBasePresenter, B extends ViewDa
      * @param adapter
      * @param list
      */
-    public void setLoadMore(BaseRVAdapter adapter, List<?> list) {
+    public void setLoadMore(RecyclerView recyclerView, BaseQuickAdapter adapter, List<?> list) {
         finishRefresh();
-        if (mPage == 1) adapter.setData(list);
-        else adapter.addData(list);
+        if (mPage == 1) {
+            adapter.setNewData(list);
+        } else {
+            adapter.addData(list);
+        }
 
-        if (list == null || list.size() < 10) {
+        if (list == null || list.size() < Constants.PAGE_COUNT) {
             adapter.loadMoreEnd();
         } else {
-            adapter.setOnLoadMoreListener(this);
+            adapter.setOnLoadMoreListener(this,recyclerView);
+
             adapter.loadMoreComplete();
         }
     }
 
     @Override
-    public void onLoadMore() {
+    public void onLoadMoreRequested() {
 
     }
 }

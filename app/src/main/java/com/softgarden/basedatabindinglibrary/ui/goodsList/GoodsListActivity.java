@@ -2,11 +2,11 @@ package com.softgarden.basedatabindinglibrary.ui.goodsList;
 
 import android.view.View;
 
-import com.mirkowu.library.listener.OnViewClickListener;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.softgarden.basedatabindinglibrary.BR;
 import com.softgarden.basedatabindinglibrary.R;
 import com.softgarden.basedatabindinglibrary.bean.GoodsBean;
-import com.softgarden.basedatabindinglibrary.ui.RefreshActivity;
+import com.softgarden.basedatabindinglibrary.refresh.RefreshActivity;
 import com.softgarden.basedatabindinglibrary.ui.SwipeBackActivity;
 import com.softgarden.baselibrary.base.databinding.DataBindingAdapter;
 import com.softgarden.baselibrary.databinding.LayoutRecyclerviewBinding;
@@ -42,9 +42,9 @@ public class GoodsListActivity extends RefreshActivity<GoodsListPresenter, Layou
         goodsAdapter = new DataBindingAdapter<GoodsBean>(R.layout.item_goods, BR.goods);
         binding.mRecyclerView.addItemDecoration(new ColorDividerDecoration(getActivity()));
         binding.mRecyclerView.setAdapter(goodsAdapter);
-        goodsAdapter.setOnViewClickListener(new OnViewClickListener<GoodsBean>() {
+        goodsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onViewClick(View view, GoodsBean data, int position) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
             }
         });
@@ -59,7 +59,7 @@ public class GoodsListActivity extends RefreshActivity<GoodsListPresenter, Layou
     @Override
     public void goodsList(List<GoodsBean> list) {
         // finishRefresh();
-        setLoadMore(goodsAdapter, list);
+        setLoadMore(binding.mRecyclerView, goodsAdapter, list);
     }
 
     @Override
@@ -69,8 +69,9 @@ public class GoodsListActivity extends RefreshActivity<GoodsListPresenter, Layou
     }
 
     @Override
-    public void onLoadMore() {
+    public void onLoadMoreRequested() {
         mPage++;
         loadData();
     }
+
 }
