@@ -1,6 +1,5 @@
 package com.softgarden.baselibrary.widget;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -15,17 +14,17 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softgarden.baselibrary.R;
-import com.softgarden.baselibrary.utils.L;
 
 import java.lang.reflect.Field;
 
 /**
- * Created by Administrator on 2016/10/10 0010.
+ * 通用的toolbar
  */
 
 public class CommonToolbar extends Toolbar {
@@ -52,6 +51,7 @@ public class CommonToolbar extends Toolbar {
     }
 
     private void initView(Context context) {
+
         //toolbar默认marginLeft ，所以定位到(0,0) 防止偏移
         this.setContentInsetsAbsolute(0, 0);
 
@@ -95,7 +95,8 @@ public class CommonToolbar extends Toolbar {
 
 
     /**
-     * 显示状态栏 (此功能需配合沉浸式) 默认为透明，保持和toolbar一样的颜色
+     * 显示状态栏 ((此功能需配合沉浸式API>=19才会生效))
+     * 默认为透明，保持和toolbar一样的颜色
      */
     public void showStatusBar() {
         showStatusBar(Color.TRANSPARENT);
@@ -103,12 +104,15 @@ public class CommonToolbar extends Toolbar {
 
 
     /**
-     * 显示状态栏 (此功能需配合沉浸式)
+     * 显示状态栏 (此功能需配合沉浸式API>=19才会生效)
      *
      * @param colorId
      */
     public void showStatusBar(@ColorInt int colorId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//android 19 4.4 以上才支持沉浸式
+            if (getContext() instanceof Activity) {//设置 沉浸式 flag
+                ((Activity) getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            }
             mStatusBar.setVisibility(VISIBLE);
             mStatusBar.setBackgroundColor(colorId);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mStatusBar.getLayoutParams();
@@ -290,7 +294,6 @@ public class CommonToolbar extends Toolbar {
      * @param colorId
      */
     public void setAllTextColor(@ColorInt int colorId) {
-        L.d("setAllTextColor==" + colorId);
         mLeftTextView.setTextColor(colorId);
         mRightTextView.setTextColor(colorId);
         mTitleTextView.setTextColor(colorId);
@@ -302,13 +305,11 @@ public class CommonToolbar extends Toolbar {
      *
      * @param colorId
      */
-    @SuppressLint("ResourceType")
     @Override
     public void setBackgroundColor(@ColorInt int colorId) {
         mRootView.setBackgroundColor(colorId);
     }
 
-    @SuppressLint("ResourceType")
     @Override
     public void setBackgroundResource(@DrawableRes int resId) {
         mRootView.setBackgroundResource(resId);
@@ -468,7 +469,6 @@ public class CommonToolbar extends Toolbar {
 
             toolbar.setTitleTextColor(titleColorId);
 
-            System.out.println("CommonToolbar.Builder.build");
             return toolbar;
         }
     }

@@ -9,9 +9,9 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!--沉浸式透明状态栏-->
+        <!--&lt;!&ndash;沉浸式透明状态栏&ndash;&gt;
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentStatus">true</item>-->
 
     </style>
 </resources>
