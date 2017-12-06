@@ -36,6 +36,7 @@ public abstract class RefreshFragment<T extends IBasePresenter, B extends ViewDa
                     RefreshFragment.this.onRefresh();
                 }
             });
+        super.initialize();
     }
 
     public abstract void onRefresh();

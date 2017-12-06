@@ -9,7 +9,7 @@ import com.softgarden.baselibrary.base.BaseContract;
 import com.softgarden.baselibrary.base.BasePresenter;
 import com.softgarden.baselibrary.widget.CommonToolbar;
 
-public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding> implements BaseContract.Display{
+public class MainActivity extends BaseActivity<BasePresenter, ActivityMainBinding> implements BaseContract.Display {
 
     @Override
     protected int getLayoutId() {
@@ -32,5 +32,6 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
         binding.tvDatabinding.setOnClickListener(v -> openActivity(TestDataBindingActivity.class));
         binding.tvMvp.setOnClickListener(v -> openActivity(TestMVPActivity.class));
         binding.tvSwipeback.setOnClickListener(v -> openActivity(SwipeBackActivity.class));
+        binding.tvTranslucent.setOnClickListener(v -> openActivity(TranslucentActivity.class));
     }
 }

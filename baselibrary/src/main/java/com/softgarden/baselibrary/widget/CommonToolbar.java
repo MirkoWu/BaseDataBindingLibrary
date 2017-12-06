@@ -1,22 +1,26 @@
 package com.softgarden.baselibrary.widget;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.ColorRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softgarden.baselibrary.R;
+import com.softgarden.baselibrary.utils.L;
 
 import java.lang.reflect.Field;
 
@@ -25,13 +29,14 @@ import java.lang.reflect.Field;
  */
 
 public class CommonToolbar extends Toolbar {
-    private RelativeLayout layout_toolbar;
-    private ImageView img_toolbar_back_button;
-    private TextView tv_toolbar_menu_left;
-    private AppCompatTextView tv_toolbar_title;
-    private ImageView img_toolbar_menu_right;
-    private TextView tv_toolbar_menu_right;
-    private boolean showSplitLine = true;//是否显示分割线
+    private View mStatusBar;//状态栏
+    private View mSplitLine;//状态栏分割线
+    private LinearLayout mRootView;//根部局
+    private AppCompatTextView mTitleTextView;//标题
+    private AppCompatTextView mLeftTextView, mRightTextView;//左右文字菜单
+    private AppCompatImageView mLeftImageView, mRightImageView;//左右图片菜单
+
+    private boolean showSplitLine = false;//是否显示分割线 默认不显示
 
     public CommonToolbar(Context context) {
         this(context, null);
@@ -47,21 +52,27 @@ public class CommonToolbar extends Toolbar {
     }
 
     private void initView(Context context) {
-        this.setContentInsetsAbsolute(0, 0);//toolbar默认marginleft ，所以定位到（0,0）
+        //toolbar默认marginLeft ，所以定位到(0,0) 防止偏移
+        this.setContentInsetsAbsolute(0, 0);
 
-        View rootView = inflate(context, R.layout.layout_common_toolbar, this);
-
-        layout_toolbar = (RelativeLayout) rootView.findViewById(R.id.layout_toolbar);
-        tv_toolbar_title = (AppCompatTextView) rootView.findViewById(R.id.tv_toolbar_title);
-        img_toolbar_back_button = (ImageView) rootView.findViewById(R.id.img_toolbar_back_button);
-        img_toolbar_menu_right = (ImageView) rootView.findViewById(R.id.img_toolbar_menu_right);
-        tv_toolbar_menu_left = (TextView) rootView.findViewById(R.id.tv_toolbar_menu_left);
-        tv_toolbar_menu_right = (TextView) rootView.findViewById(R.id.tv_toolbar_menu_right);
-
+        View view = inflate(context, R.layout.layout_common_toolbar, this);
+        mStatusBar = view.findViewById(R.id.mStatusBar);
+        mSplitLine = view.findViewById(R.id.mSplitLine);
+        mRootView = (LinearLayout) view.findViewById(R.id.layout_toolbar);
+        mTitleTextView = (AppCompatTextView) view.findViewById(R.id.mTitleTextView);
+        mLeftTextView = (AppCompatTextView) view.findViewById(R.id.mLeftTextView);
+        mRightTextView = (AppCompatTextView) view.findViewById(R.id.mRightTextView);
+        mLeftImageView = (AppCompatImageView) view.findViewById(R.id.mLeftImageView);
+        mRightImageView = (AppCompatImageView) view.findViewById(R.id.mRightImageView);
     }
 
-    public View getRootView() {
-        return layout_toolbar;
+    /**
+     * 根部局
+     *
+     * @return
+     */
+    public ViewGroup getRootView() {
+        return mRootView;
     }
 
 
@@ -84,12 +95,62 @@ public class CommonToolbar extends Toolbar {
 
 
     /**
+     * 显示状态栏 (此功能需配合沉浸式) 默认为透明，保持和toolbar一样的颜色
+     */
+    public void showStatusBar() {
+        showStatusBar(Color.TRANSPARENT);
+    }
+
+
+    /**
+     * 显示状态栏 (此功能需配合沉浸式)
+     *
+     * @param colorId
+     */
+    public void showStatusBar(@ColorInt int colorId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//android 19 4.4 以上才支持沉浸式
+            mStatusBar.setVisibility(VISIBLE);
+            mStatusBar.setBackgroundColor(colorId);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mStatusBar.getLayoutParams();
+            params.height = getStatusBarHeight();
+        }
+    }
+
+    /**
+     * 隐藏 statusBar
+     */
+    public void hideStatusBar() {
+        mStatusBar.setVisibility(GONE);
+    }
+
+    /**
+     * toolbar 和布局的分割线
+     *
+     * @param colorId
+     * @param height
+     */
+    public void showSplitLine(@ColorInt int colorId, int height) {
+        mSplitLine.setVisibility(VISIBLE);
+        mSplitLine.setBackgroundColor(colorId);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mSplitLine.getLayoutParams();
+        params.height = height;
+    }
+
+    /**
+     * 隐藏 statusBar
+     */
+    public void hideSplitLine() {
+        mSplitLine.setVisibility(GONE);
+    }
+
+
+    /**
      * 设置返回按钮,
      * image 将资源id设置 <= 0 的值就可以隐藏返回键
      */
-    public void setBackButton(@DrawableRes int resId) {
+    public void showBackButton(@DrawableRes int resId) {
         if (resId <= 0) {
-            img_toolbar_back_button.setVisibility(View.GONE);
+            mLeftImageView.setVisibility(GONE);
             return;
         }
         showImageLeft(resId, new OnClickListener() {
@@ -101,22 +162,23 @@ public class CommonToolbar extends Toolbar {
         });
     }
 
+
     /**
      * 显示图形菜单按钮,右边
      */
     public void showImageLeft(@DrawableRes int resId, OnClickListener listener) {
-        img_toolbar_back_button.setVisibility(View.VISIBLE);
-        img_toolbar_back_button.setImageResource(resId);
-        img_toolbar_back_button.setOnClickListener(listener);
+        mLeftImageView.setImageResource(resId);
+        mLeftImageView.setVisibility(VISIBLE);
+        mLeftImageView.setOnClickListener(listener);
     }
 
     /**
      * 显示文本菜单按钮
      */
-    public void showTextLeft(CharSequence content, OnClickListener listener) {
-        tv_toolbar_menu_left.setVisibility(View.VISIBLE);
-        tv_toolbar_menu_left.setText(content);
-        tv_toolbar_menu_left.setOnClickListener(listener);
+    public void showTextLeft(CharSequence text, OnClickListener listener) {
+        mLeftTextView.setText(text);
+        mLeftTextView.setVisibility(VISIBLE);
+        mLeftTextView.setOnClickListener(listener);
     }
 
     public void showTextLeft(@StringRes int resId, OnClickListener listener) {
@@ -126,65 +188,65 @@ public class CommonToolbar extends Toolbar {
     /**
      * 显示文本菜单按钮
      *
-     * @param content
+     * @param text
      * @param listener
      */
-    public void showTextRight(CharSequence content, OnClickListener listener) {
-        tv_toolbar_menu_right.setVisibility(View.VISIBLE);
-        tv_toolbar_menu_right.setText(content);
-        tv_toolbar_menu_right.setOnClickListener(listener);
+    public void showTextRight(CharSequence text, OnClickListener listener) {
+        mRightTextView.setText(text);
+        mRightTextView.setVisibility(VISIBLE);
+        mRightTextView.setOnClickListener(listener);
     }
 
-    public void showTextRight(@StringRes int content, OnClickListener listener) {
-        showTextRight(getContext().getText(content), listener);
+    public void showTextRight(@StringRes int text, OnClickListener listener) {
+        showTextRight(getContext().getText(text), listener);
     }
 
     /**
      * 显示图形菜单按钮,右边
      */
     public void showImageRight(@DrawableRes int resId, OnClickListener listener) {
-        img_toolbar_menu_right.setVisibility(View.VISIBLE);
-        img_toolbar_menu_right.setImageResource(resId);
-        img_toolbar_menu_right.setOnClickListener(listener);
+        mRightImageView.setImageResource(resId);
+        mRightImageView.setVisibility(VISIBLE);
+        mRightImageView.setOnClickListener(listener);
     }
 
     /**
      * 隐藏返回按钮
      */
     public void hideBackButton() {
-        img_toolbar_back_button.setVisibility(View.GONE);
+        mLeftImageView.setVisibility(GONE);
     }
 
     /**
      * 隐藏文本菜单按钮
      */
     public void hideTextLeft() {
-        tv_toolbar_menu_left.setVisibility(View.GONE);
+        mLeftTextView.setVisibility(GONE);
     }
 
     /**
      * 隐藏文本菜单按钮
      */
     public void hideTextRight() {
-        tv_toolbar_menu_right.setVisibility(View.GONE);
+        mRightTextView.setVisibility(GONE);
     }
 
     /**
      * 隐藏图形菜单按钮
      */
     public void hideImageRight() {
-        img_toolbar_menu_right.setVisibility(View.GONE);
+        mRightImageView.setVisibility(GONE);
     }
 
 
     /**
-     * 设置 title
+     * 设置 titleText
      *
-     * @param title
+     * @param titleText
      */
     @Override
-    public void setTitle(CharSequence title) {
-        tv_toolbar_title.setText(title);
+    public void setTitle(CharSequence titleText) {
+        mTitleTextView.setText(titleText);
     }
 
     @Override
@@ -199,56 +261,78 @@ public class CommonToolbar extends Toolbar {
      */
     @Override
     public CharSequence getTitle() {
-        return tv_toolbar_title.getText();
+        return mTitleTextView.getText();
     }
 
     /**
-     * 设置title 颜色
+     * 设置标题 颜色
      *
-     * @param color
+     * @param colorId
      */
     @Override
-    public void setTitleTextColor(@ColorRes int color) {
-        tv_toolbar_title.setTextColor(ContextCompat.getColor(getContext(), color));
+    public void setTitleTextColor(@ColorInt int colorId) {
+        mTitleTextView.setTextColor(colorId);
     }
 
     /**
-     * 设置整个toolbar背景色
+     * 设置文本菜单的颜色
      *
-     * @param colorResId
+     * @param colorId
      */
-    @Override
-    public void setBackgroundColor(@ColorRes int colorResId) {
-        layout_toolbar.setBackgroundColor(ContextCompat.getColor(getContext(), colorResId));
+    public void setMenuTextColor(@ColorInt int colorId) {
+        mLeftTextView.setTextColor(colorId);
+        mRightTextView.setTextColor(colorId);
     }
 
-    public void setStatusBarPadding() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//android 19 4.4 以上才支持沉浸式
-            int statusBarHeight = getStatusBarHeight();
-            LayoutParams params = (LayoutParams) layout_toolbar.getLayoutParams();
-            params.height = params.height + statusBarHeight;
-            layout_toolbar.setPadding(0, statusBarHeight, 0, 0);
-        }
+    /**
+     * 统一设置文字的颜色
+     *
+     * @param colorId
+     */
+    public void setAllTextColor(@ColorInt int colorId) {
+        L.d("setAllTextColor==" + colorId);
+        mLeftTextView.setTextColor(colorId);
+        mRightTextView.setTextColor(colorId);
+        mTitleTextView.setTextColor(colorId);
     }
+
+
+    /**
+     * 设置整个toolbar背景颜色
+     *
+     * @param colorId
+     */
+    @SuppressLint("ResourceType")
+    @Override
+    public void setBackgroundColor(@ColorInt int colorId) {
+        mRootView.setBackgroundColor(colorId);
+    }
+
+    @SuppressLint("ResourceType")
+    @Override
+    public void setBackgroundResource(@DrawableRes int resId) {
+        mRootView.setBackgroundResource(resId);
+    }
+
 
     public TextView getTitleTextView() {
-        return tv_toolbar_title;
+        return mTitleTextView;
     }
 
     public TextView getLeftTextView() {
-        return tv_toolbar_menu_left;
+        return mLeftTextView;
     }
 
     public TextView getRightTextView() {
-        return tv_toolbar_menu_right;
+        return mRightTextView;
     }
 
     public ImageView getLeftImageView() {
-        return img_toolbar_back_button;
+        return mLeftImageView;
     }
 
     public ImageView getRightImageView() {
-        return img_toolbar_menu_right;
+        return mRightImageView;
     }
 
 
@@ -256,9 +340,11 @@ public class CommonToolbar extends Toolbar {
      * builder 模式
      */
     public static class Builder {
-        private CharSequence title, leftStr, rightStr;
-        private int titleResId, backgroundColorResId, leftImgResId, leftStrResId, rightImgResId, rightStrResId;
-        private int backResId = R.mipmap.back;
+        private CharSequence titleText, leftText, rightText;
+        private int titleTextResId, leftImgResId, leftTextResId, rightImgResId, rightTextResId;
+        private int backResId;
+        private int statusBarColorId = Color.TRANSPARENT, backgroundColorId = Color.BLUE,
+                allTextColorId = Color.BLACK, titleColorId = Color.BLACK;//均设置默认值
         private OnClickListener leftOnClickListener, rightOnClickListener;
 
         /**
@@ -284,74 +370,103 @@ public class CommonToolbar extends Toolbar {
             return this;
         }
 
-        public Builder showTextLeft(CharSequence leftStr, OnClickListener leftOnClickListener) {
-            this.leftStr = leftStr;
+        public Builder showTextLeft(CharSequence leftText, OnClickListener leftOnClickListener) {
+            this.leftText = leftText;
             this.leftOnClickListener = leftOnClickListener;
             return this;
         }
 
-        public Builder showTextLeft(@StringRes int leftStrResId, OnClickListener leftOnClickListener) {
-            this.leftStrResId = leftStrResId;
+        public Builder showTextLeft(@StringRes int leftTextResId, OnClickListener leftOnClickListener) {
+            this.leftTextResId = leftTextResId;
             this.leftOnClickListener = leftOnClickListener;
             return this;
         }
 
-        public Builder showTextRight(CharSequence rightStr, OnClickListener rightOnClickListener) {
-            this.rightStr = rightStr;
+        public Builder showTextRight(CharSequence rightText, OnClickListener rightOnClickListener) {
+            this.rightText = rightText;
             this.rightOnClickListener = rightOnClickListener;
             return this;
         }
 
-        public Builder showTextRight(@StringRes int rightStrResId, OnClickListener rightOnClickListener) {
-            this.rightStrResId = rightStrResId;
+        public Builder showTextRight(@StringRes int rightTextResId, OnClickListener rightOnClickListener) {
+            this.rightTextResId = rightTextResId;
             this.rightOnClickListener = rightOnClickListener;
             return this;
         }
 
 
-        public Builder setTitle(CharSequence title) {
-            this.title = title;
+        public Builder setTitle(CharSequence titleText) {
+            this.titleText = titleText;
             return this;
         }
 
-        public Builder setTitle(@StringRes int titleResId) {
-            this.titleResId = titleResId;
+        public Builder setTitle(@StringRes int titleTextResId) {
+            this.titleTextResId = titleTextResId;
             return this;
         }
 
-        public Builder setBackgroundColor(@ColorRes int backgroundColorResId) {
-            this.backgroundColorResId = backgroundColorResId;
+        /**
+         * setTitleTextColor  和 setAllTextColor 顺序 按最新设置的那个算
+         *
+         * @param titleColorId
+         * @return
+         */
+        public Builder setTitleTextColor(@ColorInt int titleColorId) {
+            this.titleColorId = titleColorId;
+            return this;
+        }
+
+        public Builder setAllTextColor(@ColorInt int allTextColorId) {
+            this.allTextColorId = allTextColorId;
+            this.titleColorId = allTextColorId;
+            return this;
+        }
+
+        public Builder setBackgroundColor(@ColorInt int backgroundColorId) {
+            this.backgroundColorId = backgroundColorId;
+            return this;
+        }
+
+        public Builder showStatusBar(@ColorInt int statusBarColorId) {
+            this.statusBarColorId = statusBarColorId;
             return this;
         }
 
 
-        public CommonToolbar build(Activity activity) {
-            CommonToolbar toolbar = new CommonToolbar(activity);
+        public CommonToolbar build(Context context) {
+            CommonToolbar toolbar = new CommonToolbar(context);
 
-            /*** setBackgroundColor */
-            if (backgroundColorResId > 0) toolbar.setBackgroundColor(backgroundColorResId);
-
-            /*** default backbuttton 这里默认设置一个返回按钮图标 */
-            toolbar.setBackButton(backResId);
+            /*** 默认隐藏 也可以将backResId 设置一个默认值*/
+            toolbar.showBackButton(backResId);
 
             /*** leftMenu */
-            if (TextUtils.isEmpty(leftStr)) {
-                if (leftStrResId > 0) toolbar.showTextLeft(leftStrResId, leftOnClickListener);
-            } else toolbar.showTextLeft(leftStr, leftOnClickListener);
+            if (TextUtils.isEmpty(leftText)) {
+                if (leftTextResId > 0) toolbar.showTextLeft(leftTextResId, leftOnClickListener);
+            } else toolbar.showTextLeft(leftText, leftOnClickListener);
+
             if (leftImgResId > 0) toolbar.showImageRight(leftImgResId, leftOnClickListener);
 
             /*** rightMenu */
-            if (TextUtils.isEmpty(rightStr)) {
-                if (rightStrResId > 0)
-                    toolbar.showTextRight(rightStrResId, rightOnClickListener);
-            } else toolbar.showTextRight(rightStr, rightOnClickListener);
+            if (TextUtils.isEmpty(rightText)) {
+                if (rightTextResId > 0) toolbar.showTextRight(rightTextResId, rightOnClickListener);
+            } else toolbar.showTextRight(rightText, rightOnClickListener);
+
             if (rightImgResId > 0) toolbar.showImageRight(rightImgResId, rightOnClickListener);
 
-            /*** title */
-            if (TextUtils.isEmpty(title)) {
-                if (titleResId > 0) toolbar.setTitle(titleResId);
+            /*** titleText */
+            if (TextUtils.isEmpty(titleText)) {
+                if (titleTextResId > 0) toolbar.setTitle(titleTextResId);
                 else toolbar.setTitle(null);
-            } else toolbar.setTitle(title);
+            } else toolbar.setTitle(titleText);
+
+
+            toolbar.showStatusBar(statusBarColorId);
+
+            toolbar.setBackgroundColor(backgroundColorId);
+
+            toolbar.setAllTextColor(allTextColorId);
+
+            toolbar.setTitleTextColor(titleColorId);
 
             System.out.println("CommonToolbar.Builder.build");
             return toolbar;

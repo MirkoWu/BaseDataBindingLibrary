@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.softgarden.basedatabindinglibrary.ui.TranslucentActivity">
+
+
+        <Button
+            android:id="@+id/tv_setPadding"
+            android:layout_width="wrap_content"
+            android:textAllCaps="false"
+            android:layout_height="wrap_content"
+            android:text="设置显示状态栏" />
+
+ <Button
+            android:id="@+id/tv_setPaddingColor"
+            android:layout_width="wrap_content"
+            android:textAllCaps="false"
+            android:layout_height="wrap_content"
+            android:text="改变状态栏颜色" />
+
+
+    </LinearLayout>
+</layout>
+

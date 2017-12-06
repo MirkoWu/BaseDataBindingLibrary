@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -48,12 +49,14 @@ public abstract class DataBindingActivity<B extends ViewDataBinding> extends RxA
     protected void initContentView() {
         commonToolbar = setToolbar();
         if (commonToolbar != null) {
+            //统一设置属性
+            commonToolbar.setAllTextColor(Color.WHITE);
+            commonToolbar.showBackButton(R.mipmap.back);
             //添加标题栏
             LinearLayout view = new LinearLayout(this);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             view.setLayoutParams(params);
             view.setOrientation(LinearLayout.VERTICAL);
-            view.setFitsSystemWindows(true);
             view.addView(commonToolbar);
             view.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
             view.setDividerDrawable(ContextCompat.getDrawable(this, R.drawable.toolbar_line));

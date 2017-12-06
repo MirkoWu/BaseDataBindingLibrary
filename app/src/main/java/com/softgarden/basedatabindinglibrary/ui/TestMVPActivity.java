@@ -1,5 +1,7 @@
 package com.softgarden.basedatabindinglibrary.ui;
 
+import android.support.v4.content.ContextCompat;
+
 import com.softgarden.basedatabindinglibrary.R;
 import com.softgarden.basedatabindinglibrary.databinding.ActivityTestDataBindingBinding;
 import com.softgarden.baselibrary.base.BaseContract;
@@ -24,7 +26,7 @@ public class TestMVPActivity extends BaseActivity<BasePresenter,ActivityTestData
                 .showTextRight("右上角菜单",v -> ToastUtil.s("右上角菜单"))//显示右上角菜单
                // .showTextLeft("左上角",v -> {})//左上角文字  左上角图片 默认是返回 当然也可以设置其他的 看下面的
               //  .setBackButton(0)// 默认显示返回按钮，当为<=0 时 隐藏返回按钮
-                .setBackgroundColor(R.color.colorAccent)//设置背景色
+                .setBackgroundColor(ContextCompat.getColor(this,R.color.colorAccent))//设置背景色
                 .build(this);
     }
 
