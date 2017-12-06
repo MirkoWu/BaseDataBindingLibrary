@@ -35,8 +35,6 @@ public class CommonToolbar extends Toolbar {
     private AppCompatTextView mLeftTextView, mRightTextView;//左右文字菜单
     private AppCompatImageView mLeftImageView, mRightImageView;//左右图片菜单
 
-    private boolean showSplitLine = false;//是否显示分割线 默认不显示
-
     public CommonToolbar(Context context) {
         this(context, null);
     }
