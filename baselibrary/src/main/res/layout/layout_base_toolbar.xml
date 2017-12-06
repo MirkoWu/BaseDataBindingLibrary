@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mRootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFF"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/mStatusBar"
+        android:layout_width="match_parent"
+        android:layout_height="17dp"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:minHeight="?actionBarSize">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/mTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="75dp"
+            android:layout_marginRight="75dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="#212121"
+            android:textSize="18sp" />
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/mSplitLine"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#BBB"
+        android:visibility="gone" />
+</LinearLayout>

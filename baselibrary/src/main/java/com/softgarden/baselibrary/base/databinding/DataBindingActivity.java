@@ -12,7 +12,6 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.softgarden.baselibrary.R;
@@ -20,6 +19,8 @@ import com.softgarden.baselibrary.base.IBaseDisplay;
 import com.softgarden.baselibrary.widget.CommonToolbar;
 import com.softgarden.baselibrary.widget.LoadingDialog;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 
 /**
@@ -54,11 +55,10 @@ public abstract class DataBindingActivity<B extends ViewDataBinding> extends RxA
             commonToolbar.showBackButton(R.mipmap.back);
             //添加标题栏
             LinearLayout view = new LinearLayout(this);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
             view.setLayoutParams(params);
             view.setOrientation(LinearLayout.VERTICAL);
             view.addView(commonToolbar);
-            view.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
             view.setDividerDrawable(ContextCompat.getDrawable(this, R.drawable.toolbar_line));
 
             binding = DataBindingUtil.inflate(getLayoutInflater(), getLayoutId(), view, false);

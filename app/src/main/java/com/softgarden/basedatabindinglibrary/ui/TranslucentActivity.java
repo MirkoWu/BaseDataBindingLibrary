@@ -29,6 +29,7 @@ public class TranslucentActivity extends DataBindingActivity<ActivityTranslucent
         binding.tvSetPaddingColor.setOnClickListener(v -> {
             getToolbar().showStatusBar(ContextCompat.getColor(this, R.color.colorAccent)); //可修改状态栏显色
         });
+        binding.mBaseToolbar.setTitle("cesss");
     }
 
     @Override

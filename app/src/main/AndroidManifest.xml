@@ -24,7 +24,7 @@
         <activity android:name=".ui.TestDataBindingActivity" />
         <activity android:name=".ui.TestMVPActivity" />
         <activity
-            android:name=".ui.TranslucentActivity"></activity>
+            android:name=".ui.TranslucentActivity" android:label="sdsds"></activity>
     </application>
 
 </manifest>

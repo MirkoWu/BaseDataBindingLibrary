@@ -13,18 +13,40 @@
         <Button
             android:id="@+id/tv_setPadding"
             android:layout_width="wrap_content"
-            android:textAllCaps="false"
             android:layout_height="wrap_content"
-            android:text="设置显示状态栏" />
+            android:text="设置显示状态栏"
+            android:textAllCaps="false" />
 
- <Button
+        <Button
             android:id="@+id/tv_setPaddingColor"
             android:layout_width="wrap_content"
-            android:textAllCaps="false"
             android:layout_height="wrap_content"
-            android:text="改变状态栏颜色" />
+            android:text="改变状态栏颜色"
+            android:textAllCaps="false" />
 
+        <com.softgarden.baselibrary.widget.BaseToolbar
+            android:id="@+id/mBaseToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="#0000"
+                android:layout_weight="1"
+                android:textColor="#0000ff"
+                android:gravity="left|center_vertical"
+                android:text="左菜单" />
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="#300f"
+                android:textColor="#00f"
+                android:gravity="right|center_vertical"
+                android:layout_gravity="right"
+                android:text="右菜单" />
+        </com.softgarden.baselibrary.widget.BaseToolbar>
     </LinearLayout>
 </layout>
 
