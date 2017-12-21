@@ -443,7 +443,7 @@ public class CommonToolbar extends Toolbar {
                 if (leftTextResId > 0) toolbar.showTextLeft(leftTextResId, leftOnClickListener);
             } else toolbar.showTextLeft(leftText, leftOnClickListener);
 
-            if (leftImgResId > 0) toolbar.showImageRight(leftImgResId, leftOnClickListener);
+            if (leftImgResId > 0) toolbar.showImageLeft(leftImgResId, leftOnClickListener);
 
             /*** rightMenu */
             if (TextUtils.isEmpty(rightText)) {

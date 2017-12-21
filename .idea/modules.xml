@@ -3,11 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BaseDataBindingLibrary.iml" filepath="$PROJECT_DIR$/BaseDataBindingLibrary.iml" />
-      <module fileurl="file://F:\Code\ASCode\BaseDataBindingLibrary\BaseDataBindingLibrary.iml" filepath="F:\Code\ASCode\BaseDataBindingLibrary\BaseDataBindingLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://F:\Code\ASCode\BaseDataBindingLibrary\app\app.iml" filepath="F:\Code\ASCode\BaseDataBindingLibrary\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/baselibrary/baselibrary.iml" filepath="$PROJECT_DIR$/baselibrary/baselibrary.iml" />
-      <module fileurl="file://F:\Code\ASCode\BaseDataBindingLibrary\baselibrary\baselibrary.iml" filepath="F:\Code\ASCode\BaseDataBindingLibrary\baselibrary\baselibrary.iml" />
     </modules>
   </component>
 </project>
